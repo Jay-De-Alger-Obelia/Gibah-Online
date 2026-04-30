@@ -23,7 +23,7 @@ const client = new Client({
 // Isi dengan ID channel Discord yang ingin dipantau
 // Cara cari ID: klik kanan channel → Copy Channel ID
 //              (aktifkan Developer Mode di Discord Settings > Advanced)
-const WATCHED_CHANNELS = (process.env.DISCORD_CHANNEL_IDS || '1499370164527960066','1452522912576700526').split(',').map(s => s.trim()).filter(Boolean);
+const WATCHED_CHANNELS = (process.env.DISCORD_CHANNEL_IDS || '1499370164527960066').split(',').map(s => s.trim()).filter(Boolean);
 
 // ── Mapping kategori berdasarkan nama channel ──
 // Sesuaikan dengan nama channel Discord-mu
@@ -97,7 +97,7 @@ client.on(Events.MessageCreate, async (message) => {
         content: `📸 **Foto berhasil ditambahkan ke galeri!**\n` +
                  `🏷 Judul: ${photo.title}\n` +
                  `📂 Kategori: ${photo.category}\n` +
-                 `🔗 [Lihat di website](${process.env.WEBSITE_URL || 'https://gibah-online.my.id'}/galeri-lengkap.html)`,
+                 `🔗 [Lihat di website](${process.env.WEBSITE_URL || 'https://gibah-online.vercel.app'}/galeri-lengkap.html)`,
         allowedMentions: { repliedUser: false },
       });
 
