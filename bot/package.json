@@ -1,0 +1,22 @@
+{
+  "name": "gibah-online-bot",
+  "version": "1.0.0",
+  "description": "Discord bot untuk auto-upload foto ke galeri Gibah Online",
+  "main": "bot.js",
+  "scripts": {
+    "start": "node bot.js",
+    "dev": "nodemon bot.js"
+  },
+  "dependencies": {
+    "discord.js": "^14.15.3",
+    "cloudinary": "^2.2.0",
+    "@supabase/supabase-js": "^2.43.5",
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

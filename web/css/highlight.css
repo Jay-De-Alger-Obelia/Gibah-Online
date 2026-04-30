@@ -1,0 +1,283 @@
+
+
+
+
+
+
+#highlight {
+  position: relative;
+  padding: 120px 40px 140px;
+  overflow: hidden;
+  /* Style 7 — background gelap solid, kontras dengan section 2 */
+  background: #0e0804;
+}
+ 
+/* Subtle noise grain texture */
+#highlight::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: .035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px;
+  pointer-events: none;
+  z-index: 0;
+}
+ 
+/* Ambient glow di belakang foto utama */
+#highlight::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px; height: 400px;
+  background: radial-gradient(ellipse, rgba(224,92,42,.12) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+ 
+/* 
+   INNER LAYOUT
+ */
+.hl-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+ 
+/* Section eyebrow */
+.hl-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Familjen Grotesk', sans-serif;
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: #ffb07a;
+  margin-bottom: 48px;
+}
+.hl-eyebrow::before,
+.hl-eyebrow::after {
+  content: '';
+  display: block;
+  width: 28px; height: 1px;
+  background: #ffb07a;
+  opacity: .45;
+}
+ 
+/* 
+   STAGE — foto utama + foto kecil
+ */
+.hl-stage {
+  position: relative;
+  width: 100%;
+  max-width: 780px;
+  /* Fitur 1 — Scroll reveal: mulai dari scale kecil */
+  opacity: 0;
+  transform: scale(.92) translateY(40px);
+  transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1);
+}
+.hl-stage.revealed {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+ 
+/* ── Foto Utama ── */
+.hl-main-wrap {
+  position: relative;
+  border-radius: 22px;
+  overflow: hidden;
+  /* Style 6 — slight rotation, kesan candid */
+  transform: rotate(-1.5deg);
+  box-shadow:
+    0 40px 100px rgba(0,0,0,.55),
+    0  8px  24px rgba(0,0,0,.35);
+  transition: transform .6s cubic-bezier(.16,1,.3,1);
+}
+.hl-stage:hover .hl-main-wrap {
+  transform: rotate(0deg) scale(1.01);
+}
+.hl-main-img {
+  width: 100%;
+  aspect-ratio: 16/10;
+  object-fit: cover;
+  display: block;
+  /* placeholder kalau foto belum ada */
+  background: linear-gradient(135deg, #1a3a6a, #2a5aa0);
+  min-height: 320px;
+}
+ 
+/* Featured badge di pojok foto */
+.hl-badge {
+  position: absolute;
+  top: 20px; left: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(255,255,255,.15);
+  border: 1px solid rgba(255,255,255,.3);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 6px 14px;
+  border-radius: 100px;
+  font-family: 'Familjen Grotesk', sans-serif;
+  font-size: .62rem;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: #fff;
+  z-index: 2;
+}
+.hl-badge-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #ffb07a;
+  animation: dotPulse 1.8s ease-in-out infinite;
+}
+ 
+/* ── Glassmorphism Caption ── */
+/* Fitur 1 — caption slide-up on reveal */
+.hl-caption {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 28px 28px 24px;
+  background: linear-gradient(
+    to top,
+    rgba(14,8,4,.85) 0%,
+    rgba(14,8,4,.55) 55%,
+    transparent 100%
+  );
+  backdrop-filter: blur(0px);
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  transform: translateY(12px);
+  opacity: 0;
+  transition: transform .7s cubic-bezier(.16,1,.3,1) .25s,
+              opacity   .7s cubic-bezier(.16,1,.3,1) .25s;
+}
+.hl-stage.revealed .hl-caption {
+  transform: translateY(0);
+  opacity: 1;
+}
+.hl-caption-title {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(1.3rem, 2.5vw, 1.9rem);
+  font-weight: 900;
+  color: #fff;
+  line-height: 1.1;
+  letter-spacing: -.02em;
+}
+.hl-caption-date {
+  font-family: 'Familjen Grotesk', sans-serif;
+  font-size: .72rem;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: rgba(255,255,255,.55);
+  margin-top: 6px;
+}
+/* Glass pill — tanggal di kanan */
+.hl-caption-pill {
+  flex-shrink: 0;
+  background: rgba(255,255,255,.12);
+  border: 1px solid rgba(255,255,255,.22);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 8px 18px;
+  border-radius: 100px;
+  font-family: 'Familjen Grotesk', sans-serif;
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: #ffb07a;
+  white-space: nowrap;
+}
+ 
+/* 
+   Style 6 — SCATTERED FOTO KECIL (3 buah)
+   Posisi acak, rotasi berbeda, depth berbeda
+ */
+.hl-small {
+  position: absolute;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow:
+    0 20px 56px rgba(0,0,0,.5),
+    0  4px 12px rgba(0,0,0,.3);
+  cursor: pointer;
+  transition:
+    box-shadow .3s,
+    filter .3s;
+  /* transform dikendalikan JS untuk parallax */
+  will-change: transform;
+  z-index: 10;
+}
+.hl-small:hover {
+  box-shadow:
+    0 28px 72px rgba(0,0,0,.6),
+    0  6px 18px rgba(0,0,0,.35);
+  filter: brightness(1.08);
+  z-index: 20;
+}
+.hl-small img,
+.hl-small .hl-small-ph {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.hl-small-ph {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.4rem;
+  background: var(--ph-bg);
+}
+ 
+/*
+  Posisi & rotasi tiap foto kecil — scattered layout:
+  s1 = kiri atas, s2 = kanan tengah, s3 = bawah kiri
+  Nilai ini adalah posisi awal; JS akan geser sesuai mouse
+*/
+.hl-s1 {
+  width: 190px; height: 145px;
+  top: -55px; left: -80px;
+  --rot: -8deg;
+  --depth: 18; /* seberapa jauh ikut mouse */
+  transform: rotate(-8deg);
+}
+.hl-s2 {
+  width: 160px; height: 130px;
+  top: 28%; right: -70px;
+  --rot: 7deg;
+  --depth: 12;
+  transform: rotate(7deg);
+}
+.hl-s3 {
+  width: 175px; height: 140px;
+  bottom: -50px; left: -65px;
+  --rot: 5deg;
+  --depth: 15;
+  transform: rotate(5deg);
+}
+ 
+/* 
+   RESPONSIVE
+ */
+@media (max-width: 900px) {
+  #highlight { padding: 80px 20px 100px; }
+  .hl-s1 { left: -30px; top: -40px; width: 140px; height: 110px; }
+  .hl-s2 { right: -30px; width: 130px; height: 105px; }
+  .hl-s3 { left: -24px; bottom: -36px; width: 140px; height: 112px; }
+}
+@media (max-width: 560px) {
+  .hl-s1, .hl-s2, .hl-s3 { display: none; }
+  .hl-main-wrap { transform: none; border-radius: 16px; }
+}

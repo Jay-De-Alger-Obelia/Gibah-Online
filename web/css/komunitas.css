@@ -1,0 +1,430 @@
+#komunitas {
+  position: relative;
+  background: #fdf8f0;
+  overflow: hidden;
+  padding: 0 0 72px; /* atas = 0 karena marquee flush ke atas */
+}
+ 
+/* Subtle warm noise texture */
+#komunitas::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: .025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px;
+  pointer-events: none;
+  z-index: 0;
+}
+ 
+/* ─────────────────────────────────────────
+   MARQUEE — 1 baris, paling atas section
+───────────────────────────────────────── */
+.kom-marquee-top {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  overflow: hidden;
+  border-bottom: 1px solid #ede4d8;
+  border-top: 1px solid #ede4d8;
+  background: #fff;
+  padding: 10px 0;
+  -webkit-mask-image: linear-gradient(
+    to right, transparent 0%, #000 6%, #000 94%, transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right, transparent 0%, #000 6%, #000 94%, transparent 100%
+  );
+}
+.kom-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marqLeft 24s linear infinite;
+}
+.kom-marquee-top:hover .kom-marquee-track {
+  animation-play-state: paused;
+}
+@keyframes marqLeft {
+  0%   { transform: translateX(0);    }
+  100% { transform: translateX(-50%); }
+}
+.kom-marquee-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 22px;
+  font-family: 'Familjen Grotesk', sans-serif;
+  font-size: .76rem;
+  font-weight: 600;
+  letter-spacing: .07em;
+  color: #7a6a5a;
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+.kom-marquee-item:nth-child(2n)   { font-weight: 800; color: #3a2a1a; }
+.kom-marquee-item:nth-child(3n)   { font-style: italic; color: #e05c2a; font-weight: 700; }
+.kom-marquee-sep { font-size: .45rem; color: #e05c2a; opacity: .4; }
+ 
+/* ─────────────────────────────────────────
+   MAIN BODY — 2 kolom
+───────────────────────────────────────── */
+.kom-body {
+  position: relative;
+  z-index: 1;
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 64px 48px 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: center;
+}
+ 
+/* ─────────────────────────────────────────
+   KOLOM KIRI — avatar + GIBAH + pills
+───────────────────────────────────────── */
+.kom-left {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+ 
+/* "GIBAH" — di belakang konten kiri */
+.kom-bg-text {
+  position: absolute;
+  top: 50%;
+  left: -20px;
+  transform: translateY(-50%);
+  font-family: 'Fraunces', serif;
+  font-size: clamp(6rem, 14vw, 12rem);
+  font-weight: 900;
+  font-style: italic;
+  letter-spacing: -.04em;
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(224,92,42,.1);
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+  line-height: 1;
+}
+ 
+/* Konten kiri harus di atas GIBAH text */
+.kom-left-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+ 
+/* Header kiri */
+.kom-header {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.kom-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Familjen Grotesk', sans-serif;
+  font-size: .65rem;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: #e05c2a;
+}
+.kom-eyebrow::before {
+  content: '';
+  display: block;
+  width: 22px; height: 1px;
+  background: #e05c2a;
+  opacity: .5;
+}
+.kom-title {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(1.8rem, 3.2vw, 2.6rem);
+  font-weight: 900;
+  letter-spacing: -.03em;
+  line-height: 1.05;
+  color: #1a1410;
+}
+.kom-title em { font-style: italic; color: #e05c2a; }
+.kom-desc {
+  font-size: .88rem;
+  color: #7a6a5a;
+  line-height: 1.75;
+  max-width: 360px;
+}
+ 
+/* ── Avatar Stack ── */
+.kom-avatars-row {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  flex-wrap: wrap;
+}
+.kom-avatars {
+  display: flex;
+  align-items: center;
+}
+.kom-avatar-wrap {
+  position: relative;
+  margin-left: -14px;
+  cursor: pointer;
+}
+.kom-avatar-wrap:first-child { margin-left: 0; }
+.kom-avatar {
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  border: 3px solid #fdf8f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--av-bg, linear-gradient(135deg,#ffb07a,#e05c2a));
+  font-size: 1.25rem;
+  transition: transform .25s cubic-bezier(.16,1,.3,1);
+  position: relative;
+  z-index: 1;
+  object-fit: cover;
+}
+.kom-avatar-wrap:hover .kom-avatar {
+  transform: translateY(-8px) scale(1.12);
+  z-index: 10;
+}
+.kom-avatar-tooltip {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%) translateY(6px);
+  background: #1a1410;
+  color: #fff;
+  font-family: 'Familjen Grotesk', sans-serif;
+  font-size: .6rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  white-space: nowrap;
+  padding: 5px 12px;
+  border-radius: 100px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .2s, transform .2s cubic-bezier(.16,1,.3,1);
+  z-index: 20;
+}
+.kom-avatar-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%; left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: #1a1410;
+}
+.kom-avatar-wrap:hover .kom-avatar-tooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+.kom-avatar-more {
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  border: 3px solid #fdf8f0;
+  background: #e05c2a;
+  color: #fff;
+  font-family: 'Familjen Grotesk', sans-serif;
+  font-size: .68rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: -14px;
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+}
+.kom-member-count {
+  margin-left: 18px;
+  font-family: 'Familjen Grotesk', sans-serif;
+  font-size: .76rem;
+  font-weight: 700;
+  color: #7a6a5a;
+  line-height: 1.4;
+}
+.kom-member-count strong {
+  display: block;
+  font-family: 'Fraunces', serif;
+  font-size: 1.3rem;
+  font-weight: 900;
+  color: #1a1410;
+  letter-spacing: -.02em;
+}
+ 
+/* ── Pills nilai komunitas ── */
+.kom-values {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  max-width: 420px;
+}
+.kom-pill {
+  font-family: 'Familjen Grotesk', sans-serif;
+  font-weight: 700;
+  padding: 9px 20px;
+  border-radius: 100px;
+  border: 1.5px solid #e8ddd2;
+  background: #fff;
+  color: #3a2a1a;
+  cursor: default;
+  transition: all .25s cubic-bezier(.16,1,.3,1);
+  line-height: 1;
+}
+.kom-pill:nth-child(1) { font-size: .9rem; }
+.kom-pill:nth-child(2) { font-size: 1.05rem; padding: 11px 24px; }
+.kom-pill:nth-child(3) { font-size: .78rem; }
+.kom-pill:nth-child(4) { font-size: 1rem; padding: 10px 22px; }
+.kom-pill:nth-child(5) { font-size: .85rem; }
+.kom-pill:nth-child(6) { font-size: .95rem; }
+.kom-pill:hover {
+  background: #e05c2a;
+  border-color: #e05c2a;
+  color: #fff;
+  transform: translateY(-3px) scale(1.04);
+  box-shadow: 0 8px 24px rgba(224,92,42,.25);
+}
+ 
+/* ─────────────────────────────────────────
+   KOLOM KANAN — Discord CTA
+───────────────────────────────────────── */
+.kom-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 20px;
+  text-align: right;
+}
+.kom-right-label {
+  font-family: 'Familjen Grotesk', sans-serif;
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: #7a6a5a;
+}
+.kom-right-heading {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(1.5rem, 2.8vw, 2.2rem);
+  font-weight: 900;
+  letter-spacing: -.03em;
+  line-height: 1.1;
+  color: #1a1410;
+}
+.kom-right-heading em { font-style: italic; color: #e05c2a; }
+.kom-right-sub {
+  font-size: .88rem;
+  color: #7a6a5a;
+  line-height: 1.7;
+  max-width: 320px;
+}
+ 
+/* Discord button — Fitur 4: pulse */
+.btn-discord {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #5865F2;
+  color: #fff;
+  padding: 15px 36px;
+  border-radius: 14px;
+  border: none;
+  font-family: 'Familjen Grotesk', sans-serif;
+  font-size: .9rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform .25s, box-shadow .25s;
+  animation: discordPulse 2.4s ease-in-out infinite;
+}
+.btn-discord:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 16px 48px rgba(88,101,242,.65);
+  animation-play-state: paused;
+}
+.btn-discord svg {
+  width: 20px; height: 20px;
+  fill: #fff;
+  flex-shrink: 0;
+}
+@keyframes discordPulse {
+  0%, 100% {
+    box-shadow: 0 8px 32px rgba(88,101,242,.4), 0 0 0 0 rgba(88,101,242,.3);
+  }
+  50% {
+    box-shadow: 0 8px 32px rgba(88,101,242,.5), 0 0 0 14px rgba(88,101,242,0);
+  }
+}
+.kom-cta-note {
+  font-family: 'Familjen Grotesk', sans-serif;
+  font-size: .65rem;
+  color: #bbb0aa;
+  letter-spacing: .06em;
+}
+ 
+/* ─────────────────────────────────────────
+   RESPONSIVE
+───────────────────────────────────────── */
+@media (max-width: 860px) {
+  .kom-body {
+    grid-template-columns: 1fr;
+    padding: 48px 28px 0;
+    gap: 40px;
+  }
+  .kom-right {
+    align-items: flex-start;
+    text-align: left;
+  }
+  .kom-bg-text {
+    font-size: clamp(4rem, 14vw, 7rem);
+    left: -10px;
+  }
+  #komunitas { padding-bottom: 56px; }
+}
+@media (max-width: 480px) {
+  .kom-avatar, .kom-avatar-more { width: 42px; height: 42px; }
+  .kom-avatar { font-size: 1.1rem; }
+}
+
+
+/* tombol ke member.html*/
+.btn-see-members {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  background: transparent;
+  color: #1a1410;
+  padding: 12px 28px;
+  border-radius: 12px;
+  border: 1.5px solid #e8ddd2;
+  font-family: 'Familjen Grotesk', sans-serif;
+  font-size: .82rem;
+  font-weight: 700;
+  letter-spacing: .05em;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all .25s cubic-bezier(.16,1,.3,1);
+}
+.btn-see-members:hover {
+  background: #1a1410;
+  color: #fff;
+  border-color: #1a1410;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(26,20,16,.2);
+}
+.btn-see-members svg {
+  flex-shrink: 0;
+  transition: transform .25s;
+}
+.btn-see-members:hover svg {
+  transform: translateX(2px);
+}

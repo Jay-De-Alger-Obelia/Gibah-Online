@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Member — Gibah Online</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,800;0,900;1,700;1,900&family=Familjen+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+
+/* ============================================
+   RESET & BASE
+============================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: #fdf8f0;
+  color: #1a1410;
+  font-family: 'DM Sans', sans-serif;
+  overflow-x: hidden;
+  /* Style 12 — fade in saat halaman dibuka */
+  animation: pageIn .6s cubic-bezier(.16,1,.3,1) both;
+}
+@keyframes pageIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================
+   STYLE 11 — TOMBOL KEMBALI (floating)
+============================================ */
+#backBtn {
+  position: fixed;
+  top: 24px;
+  left: 24px;
+  z-index: 1000;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(224,92,42,.25);
+  padding: 9px 18px 9px 14px;
+  border-radius: 100px;
+  font-family: 'Familjen Grotesk', sans-serif;
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: #e05c2a;
+  text-decoration: none;
+  box-shadow: 0 4px 20px rgba(0,0,0,.08);
+  transition: all .25s cubic-bezier(.16,1,.3,1);
+  /* Slide masuk dari kiri */
+  animation: backBtnIn .7s cubic-bezier(.16,1,.3,1) .2s both;
+}
+@keyframes backBtnIn {
+  from { opacity: 0; transform: translateX(-20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+#backBtn:hover {
+  background: #e05c2a;
+  color: #fff;
+  border-color: #e05c2a;
+  transform: translateX(-2px);
+  box-shadow: 0 6px 24px rgba(224,92,42,.3);
+}
+#backBtn svg {
+  width: 14px; height: 14px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex-shrink: 0;
+  transition: transform .25s;
+}
+#backBtn:hover svg { transform: translateX(-3px); }
+
+/* ============================================
+   HERO SECTION KECIL
+============================================ */
+.member-hero {
+  padding: 100px 40px 64px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle GIBAH watermark */
+.member-hero::before {
+  content: 'GIBAH';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Fraunces', serif;
+  font-size: clamp(6rem, 18vw, 14rem);
+  font-weight: 900;
+  font-style: italic;
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(224,92,42,.07);
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 0;
+  line-height: 1;
+}
+
+.member-hero-inner {
+  position: relative;
+  z-index: 1;
+}
+.member-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Familjen Grotesk', sans-serif;
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: #e05c2a;
+  margin-bottom: 18px;
+}
+.member-eyebrow::before,
+.member-eyebrow::after {
+  content: '';
+  display: block;
+  width: 28px; height: 1px;
+  background: #e05c2a;
+  opacity: .45;
+}
+.member-title {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  font-weight: 900;
+  letter-spacing: -.03em;
+  line-height: 1.05;
+  color: #1a1410;
+  margin-bottom: 14px;
+}
+.member-title em {
+  font-style: italic;
+  color: #e05c2a;
+}
+.member-subtitle {
+  font-size: .92rem;
+  color: #7a6a5a;
+  line-height: 1.7;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+/* ============================================
+   FILTER TABS
+============================================ */
+.member-filters {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 40px 48px;
+  flex-wrap: wrap;
+}
+.mfilter-btn {
+  font-family: 'Familjen Grotesk', sans-serif;
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  padding: 8px 20px;
+  border-radius: 100px;
+  border: 1.5px solid #e8ddd2;
+  background: #fff;
+  color: #7a6a5a;
+  cursor: pointer;
+  transition: all .25s cubic-bezier(.16,1,.3,1);
+  position: relative;
+  overflow: hidden;
+}
+.mfilter-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #e05c2a;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .3s cubic-bezier(.16,1,.3,1);
+  z-index: 0;
+}
+.mfilter-btn span { position: relative; z-index: 1; }
+.mfilter-btn.active,
+.mfilter-btn:hover {
+  border-color: #e05c2a;
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(224,92,42,.25);
+}
+.mfilter-btn.active::before,
+.mfilter-btn:hover::before { transform: scaleX(1); }
+
+/* ============================================
+   STYLE 2 — GRID KARTU MEMBER
+============================================ */
+.member-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 20px;
+  padding: 0 40px 100px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ============================================
+   STYLE 8 — FLIP CARD
+============================================ */
+.flip-card {
+  height: 320px;
+  perspective: 1000px;
+  cursor: pointer;
+  /* Stagger entrance */
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity .5s cubic-bezier(.16,1,.3,1),
+    transform .5s cubic-bezier(.16,1,.3,1);
+}
+.flip-card.revealed { opacity: 1; transform: translateY(0); }
+.flip-card.hidden {
+  opacity: 0 !important;
+  transform: scale(.94) !important;
+  pointer-events: none;
+  position: absolute;
+  visibility: hidden;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%; height: 100%;
+  transform-style: preserve-3d;
+  transition: transform .6s cubic-bezier(.16,1,.3,1);
+}
+.flip-card:hover .flip-card-inner,
+.flip-card.flipped .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+/* Shared face styles */
+.flip-front,
+.flip-back {
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  overflow: hidden;
+}
+
+/* ── SISI DEPAN ── */
+.flip-front {
+ background: #fff;
+  border: 1.5px solid #ede4d8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 28px 20px 24px;
+  box-shadow: 0 4px 24px rgba(30,20,10,.06);
+  transition: box-shadow .3s;
+}
+.flip-card:hover .flip-front {
+  box-shadow: 0 12px 48px rgba(30,20,10,.1);
+}
+
+/* Foto member */
+.member-avatar {
+  width: 96px; height: 96px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #fdf8f0;
+  outline: 2px solid #e8ddd2;
+  display: block;
+  background: linear-gradient(135deg,#ffb07a,#e05c2a);
+  font-size: 2.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.member-avatar img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+/* Background foto di belakang kartu */
+.flip-front-bg {
+  position: absolute;
+  inset: 0;
+  background-image: var(--card-bg);
+  background-size: cover;
+  background-position: center top;
+  z-index: 0;
+  transition: transform .55s cubic-bezier(.16,1,.3,1);
+}
+.flip-card:hover .flip-front-bg {
+  transform: scale(1.06);
+}
+
+/* Gradient gelap di atas foto */
+.flip-front-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(14,8,4,.15) 0%,
+    rgba(14,8,4,.35) 45%,
+    rgba(14,8,4,.82) 100%
+  );
+}
+
+/* Semua konten di atas background */
+.flip-front > *:not(.flip-front-bg) {
+  position: relative;
+  z-index: 1;
+}
+
+/* Avatar tetap di tengah tapi naik ke atas */
+.member-avatar-wrap {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 4px;
+  margin-top: -48px; /* tarik ke atas sedikit */
+}
+
+/* Nama & username jadi putih karena di atas foto gelap */
+.member-name    { color: #ffffff; text-shadow: 0 1px 8px rgba(255, 255, 255, 0.486); }
+.member-username { color: rgba(255,255,255,.55); }
+.flip-hint      { color: rgba(255,255,255,.35); }
+
+/* Naikkan dari 320px ke 340px */
+.flip-card { height: 340px; }
+@media (max-width: 480px) {
+  .flip-card { height: 300px; }
+}
+
+
+/* STYLE 3 — Role badge berwarna */
+.role-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 12px;
+  border-radius: 100px;
+  font-family: 'Familjen Grotesk', sans-serif;
+  font-size: .6rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+.role-badge::before {
+  content: '';
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: .8;
+  flex-shrink: 0;
+}
+/* Warna per role */
+.badge-founder {
+  background: linear-gradient(135deg,#fff4e0,#ffecc0);
+  color: #a06000;
+  border: 1px solid #f0cc80;
+}
+.badge-admin {
+  background: #fff0ea;
+  color: #b04010;
+  border: 1px solid #f0c0a0;
+}
+.badge-og {
+  background: #f0eaff;
+  color: #6030a0;
+  border: 1px solid #d0b0f0;
+}
+.badge-member {
+  background: #f0ece8;
+  color: #5a4a3a;
+  border: 1px solid #ddd4c8;
+}
+
+.member-name {
+  font-family: 'Fraunces', serif;
+  font-size: 1.2rem;
+  font-weight: 900;
+  color: #ffffff;
+  letter-spacing: -.02em;
+  text-align: center;
+}
+.member-username {
+  font-family: 'Familjen Grotesk', sans-serif;
+  font-size: .68rem;
+  font-weight: 600;
+  color: #aaa09a;
+  letter-spacing: .06em;
+}
+
+/* Status dot */
+.status-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  position: absolute;
+  bottom: 4px; right: 4px;
+  border: 2px solid #fff;
+}
+.status-dot.online  { background: #40c070; }
+.status-dot.offline { background: #c0b8b0; }
+.member-avatar-wrap {
+  position: relative;
+  display: inline-block;
+}
+
+/* Flip hint */
+.flip-hint {
+  font-family: 'Familjen Grotesk', sans-serif;
+  font-size: .58rem;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: #c0b8b0;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.flip-hint::after {
+  content: '↻';
+  font-size: .7rem;
+  opacity: .6;
+}
+
+/* ── SISI BELAKANG ── */
+.flip-back {
+  background: #1a1410;
+  transform: rotateY(180deg);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 28px 24px 24px;
+}
+
+/* Quote */
+.flip-quote-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+.flip-quote {
+  font-family: 'Fraunces', serif;
+  font-size: 1.05rem;
+  font-weight: 800;
+  font-style: italic;
+  color: #fff;
+  line-height: 1.45;
+  letter-spacing: -.01em;
+  position: relative;
+  padding-left: 18px;
+}
+.flip-quote::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 4px; bottom: 4px;
+  width: 3px;
+  border-radius: 2px;
+  background: #ffb07a;
+}
+
+/* Back info */
+.flip-back-info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.flip-back-name {
+  font-family: 'Familjen Grotesk', sans-serif;
+  font-size: .78rem;
+  font-weight: 700;
+  color: rgba(255,255,255,.9);
+  letter-spacing: .04em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.flip-back-date {
+  font-family: 'Familjen Grotesk', sans-serif;
+  font-size: .62rem;
+  color: rgba(255,255,255,.4);
+  letter-spacing: .08em;
+}
+.flip-back-role { flex-shrink: 0; }
+
+/* ============================================
+   EMPTY STATE (filter tidak ada hasilnya)
+============================================ */
+.member-empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 60px 0;
+  display: none;
+}
+.member-empty.show { display: block; }
+.member-empty p {
+  font-family: 'Familjen Grotesk', sans-serif;
+  font-size: .88rem;
+  color: #aaa09a;
+  letter-spacing: .06em;
+}
+
+/* ============================================
+   RESPONSIVE
+============================================ */
+@media (max-width: 768px) {
+  .member-hero  { padding: 80px 24px 48px; }
+  .member-grid  { padding: 0 20px 72px; gap: 14px; }
+  .member-filters { padding: 0 20px 36px; }
+  #backBtn { top: 16px; left: 16px; }
+  .flip-card { height: 300px; }
+}
+@media (max-width: 480px) {
+  .member-grid { grid-template-columns: 1fr 1fr; }
+  .flip-card { height: 280px; }
+  .member-avatar { width: 72px; height: 72px; font-size: 1.8rem; }
+  .flip-quote { font-size: .92rem; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Style 11 — Tombol Kembali -->
+<a href="index.html" id="backBtn" onclick="goBack(event)">
+  <svg viewBox="0 0 16 16"><polyline points="10 4 6 8 10 12"/></svg>
+  Kembali
+</a>
+
+<!-- Hero -->
+<div class="member-hero">
+  <div class="member-hero-inner">
+    <div class="member-eyebrow"><span>✦ Meet the Crew</span></div>
+    <h1 class="member-title">Anggota<br><em>Gibah Online</em></h1>
+    <p class="member-subtitle">Hover kartu untuk lihat quote. Klik untuk flip balik.</p>
+  </div>
+</div>
+
+<!-- Filter -->
+<!--
+  data-role di tiap .flip-card harus cocok dengan data-filter di tombol:
+  all / founder / admin / og / member
+-->
+<div class="member-filters">
+  <button class="mfilter-btn active" data-filter="all"><span>✦ Semua</span></button>
+  <button class="mfilter-btn" data-filter="founder"><span>👑 Founder</span></button>
+  <button class="mfilter-btn" data-filter="admin"><span>🛡 Admin</span></button>
+  <button class="mfilter-btn" data-filter="og"><span>⭐ OG Member</span></button>
+  <button class="mfilter-btn" data-filter="member"><span>🎮 Member</span></button>
+</div>
+
+<!-- Grid Member -->
+<!--
+  ═══════════════════════════════════════════════
+  CARA TAMBAH / EDIT MEMBER:
+
+  Duplikat satu blok .flip-card dan ubah:
+  1. data-role      = founder / admin / og / member
+  2. .member-avatar = ganti <img src="..."> dengan foto asli
+                      atau ganti emoji kalau belum ada foto
+
+      member bg     <div class="flip-front-bg" style="--card-bg: linear-gradient(135deg,#a0c8ff,#5090e0)"></div>
+                    <div class="flip-front-bg" style="--card-bg: url('member/bila.png')"></div>
+
+  3. .role-badge    = ganti class & teks sesuai role
+  4. .member-name   = nama display
+  5. .member-username = username Discord
+  6. .status-dot    = class "online" atau "offline"
+  7. .flip-quote    = quote / kalimat dari member
+  8. .flip-back-date = tanggal bergabung
+  ═══════════════════════════════════════════════
+-->
+<div class="member-grid" id="memberGrid">
+
+  <!-- ── FOUNDER ── -->
+  <div class="flip-card" data-role="founder">
+    <div class="flip-card-inner">
+      <div class="flip-front">
+        <div class="flip-front-bg" style="--card-bg: url('member/bila.png')"></div>
+        <div class="member-avatar-wrap">
+          <div class="member-avatar">
+            <img src="member/bila.png" alt="Bila"
+                 onerror="this.parentElement.textContent='👑'">
+          </div>
+          <span class="status-dot online"></span>
+        </div>
+        <div class="role-badge badge-founder">👑 Founder</div>
+        <div class="member-name">Bila</div>
+        <div class="member-username">@bila</div>
+        <div class="flip-hint">Hover buat flip</div>
+      </div>
+      <div class="flip-back">
+        <div class="flip-quote-wrap">
+          <div class="flip-quote">"quote Bila"</div>
+        </div>
+        <div class="flip-back-info">
+          <div class="flip-back-name">
+            Bila
+            <span class="flip-back-role"><span class="role-badge badge-founder">👑 Founder</span></span>
+          </div>
+          <div class="flip-back-date">Bergabung sejak Nov 2025</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── ADMIN ── -->
+  <div class="flip-card" data-role="admin">
+    <div class="flip-card-inner">
+      <div class="flip-front">
+        <div class="flip-front-bg" style="--card-bg: url('member/zilla.png')"></div>
+        <div class="member-avatar-wrap">
+          <div class="member-avatar">
+            <img src="member/zilla.png" alt="Zilla"
+                 onerror="this.parentElement.textContent='🛡'">
+          </div>
+          <span class="status-dot online"></span>
+        </div>
+        <div class="role-badge badge-admin">🛡 Admin</div>
+        <div class="member-name">Zilla</div>
+        <div class="member-username">@zilla</div>
+        <div class="flip-hint">Hover buat flip</div>
+      </div>
+      <div class="flip-back">
+        <div class="flip-quote-wrap">
+          <div class="flip-quote">"quote Zilla."</div>
+        </div>
+        <div class="flip-back-info">
+          <div class="flip-back-name">
+            Zilla
+            <span class="flip-back-role"><span class="role-badge badge-admin">🛡 Admin</span></span>
+          </div>
+          <div class="flip-back-date">Bergabung sejak Nov 2025</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── OG MEMBER ── -->
+  <div class="flip-card" data-role="og">
+    <div class="flip-card-inner">
+      <div class="flip-front">
+        <div class="flip-front-bg" style="--card-bg: url('member/vela.png')"></div>
+        <div class="member-avatar-wrap">
+          <div class="member-avatar">
+            <img src="member/vela.png" alt="Vela"
+                 onerror="this.parentElement.textContent='⭐'">
+          </div>
+          <span class="status-dot online"></span>
+        </div>
+        <div class="role-badge badge-og">⭐ OG Member</div>
+        <div class="member-name">Vela</div>
+        <div class="member-username">@vela</div>
+        <div class="flip-hint">Hover buat flip</div>
+      </div>
+      <div class="flip-back">
+        <div class="flip-quote-wrap">
+          <div class="flip-quote">" quote Vela"</div>
+        </div>
+        <div class="flip-back-info">
+          <div class="flip-back-name">
+            Vela
+            <span class="flip-back-role"><span class="role-badge badge-og">⭐ OG Member</span></span>
+          </div>
+          <div class="flip-back-date">Bergabung sejak Nov 2025</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="flip-card" data-role="og">
+    <div class="flip-card-inner">
+      <div class="flip-front">
+        <div class="flip-front-bg" style="--card-bg: url('member/sari.png')"></div>
+        <div class="member-avatar-wrap">
+          <div class="member-avatar">
+            <img src="member/sari.png" alt="Apsari"
+                 onerror="this.parentElement.textContent='⭐'">
+          </div>
+          <span class="status-dot online"></span>
+        </div>
+        <div class="role-badge badge-og">⭐ OG Member</div>
+        <div class="member-name">Apsari</div>
+        <div class="member-username">@apsari</div>
+        <div class="flip-hint">Hover buat flip</div>
+      </div>
+      <div class="flip-back">
+        <div class="flip-quote-wrap">
+          <div class="flip-quote">" quote Apsari"</div>
+        </div>
+        <div class="flip-back-info">
+          <div class="flip-back-name">
+            Apsari
+            <span class="flip-back-role"><span class="role-badge badge-og">⭐ OG Member</span></span>
+          </div>
+          <div class="flip-back-date">Bergabung sejak Des 2025</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="flip-card" data-role="og">
+    <div class="flip-card-inner">
+      <div class="flip-front">
+        <div class="flip-front-bg" style="--card-bg: url('member/berot.png')"></div>
+        <div class="member-avatar-wrap">
+          <div class="member-avatar">
+            <img src="member/berot.png" alt="Berot"
+                 onerror="this.parentElement.textContent='⭐'">
+          </div>
+          <span class="status-dot offline"></span>
+        </div>
+        <div class="role-badge badge-og">⭐ OG Member</div>
+        <div class="member-name">Berot</div>
+        <div class="member-username">@berot</div>
+        <div class="flip-hint">Hover buat flip</div>
+      </div>
+      <div class="flip-back">
+        <div class="flip-quote-wrap">
+          <div class="flip-quote">" quote Berot"</div>
+        </div>
+        <div class="flip-back-info">
+          <div class="flip-back-name">
+            Berot
+            <span class="flip-back-role"><span class="role-badge badge-og">⭐ OG Member</span></span>
+          </div>
+          <div class="flip-back-date">Bergabung sejak Des 2025</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="flip-card" data-role="og">
+    <div class="flip-card-inner">
+      <div class="flip-front">
+        <div class="flip-front-bg" style="--card-bg: url('member/buntil.png')"></div>
+        <div class="member-avatar-wrap">
+          <div class="member-avatar">
+            <img src="member/buntil.png" alt="Buntil"
+                 onerror="this.parentElement.textContent='⭐'">
+          </div>
+          <span class="status-dot online"></span>
+        </div>
+        <div class="role-badge badge-og">⭐ OG Member</div>
+        <div class="member-name">Buntil</div>
+        <div class="member-username">@buntil</div>
+        <div class="flip-hint">Hover buat flip</div>
+      </div>
+      <div class="flip-back">
+        <div class="flip-quote-wrap">
+          <div class="flip-quote">" quote Buntil"</div>
+        </div>
+        <div class="flip-back-info">
+          <div class="flip-back-name">
+            Buntil
+            <span class="flip-back-role"><span class="role-badge badge-og">⭐ OG Member</span></span>
+          </div>
+          <div class="flip-back-date">Bergabung sejak Des 2025</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── MEMBER biasa — duplikat untuk member lainnya ── -->
+  <div class="flip-card" data-role="member">
+    <div class="flip-card-inner">
+      <div class="flip-front">
+         <div class="flip-front-bg" style="--card-bg: linear-gradient(135deg,#a0c8ff,#5090e0)"></div>
+        <div class="member-avatar-wrap">
+          <div class="member-avatar" style="background:linear-gradient(135deg,#a0c8ff,#5090e0)">🎮</div>
+          <span class="status-dot online"></span>
+        </div>
+        <div class="role-badge badge-member">🎮 Member</div>
+        <div class="member-name">Wan</div>
+        <div class="member-username">@wan</div>
+        <div class="flip-hint">Hover buat flip</div>
+      </div>
+      <div class="flip-back">
+        <div class="flip-quote-wrap">
+          <div class="flip-quote">"Isi quote Wan di sini."</div>
+        </div>
+        <div class="flip-back-info">
+          <div class="flip-back-name">
+            Wan
+            <span class="flip-back-role"><span class="role-badge badge-member">🎮 Member</span></span>
+          </div>
+          <div class="flip-back-date">Bergabung sejak Jan 2026</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="flip-card" data-role="member">
+    <div class="flip-card-inner">
+      <div class="flip-front">
+         <div class="flip-front-bg" style="--card-bg: linear-gradient(135deg,#a0c8ff,#5090e0)"></div>
+        <div class="member-avatar-wrap">
+          <div class="member-avatar" style="background:linear-gradient(135deg,#a0e8c0,#30b870)">🎮</div>
+          <span class="status-dot offline"></span>
+        </div>
+        <div class="role-badge badge-member">🎮 Member</div>
+        <div class="member-name">Eye</div>
+        <div class="member-username">@eye</div>
+        <div class="flip-hint">Hover buat flip</div>
+      </div>
+      <div class="flip-back">
+        <div class="flip-quote-wrap">
+          <div class="flip-quote">"Isi quote Eye di sini."</div>
+        </div>
+        <div class="flip-back-info">
+          <div class="flip-back-name">
+            Eye
+            <span class="flip-back-role"><span class="role-badge badge-member">🎮 Member</span></span>
+          </div>
+          <div class="flip-back-date">Bergabung sejak Jan 2026</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="flip-card" data-role="member">
+    <div class="flip-card-inner">
+      <div class="flip-front">
+         <div class="flip-front-bg" style="--card-bg: linear-gradient(135deg,#a0c8ff,#5090e0)"></div>
+        <div class="member-avatar-wrap">
+          <div class="member-avatar" style="background:linear-gradient(135deg,#ffb0d0,#e060a0)">🎮</div>
+          <span class="status-dot online"></span>
+        </div>
+        <div class="role-badge badge-member">🎮 Member</div>
+        <div class="member-name">Hira</div>
+        <div class="member-username">@hira</div>
+        <div class="flip-hint">Hover buat flip</div>
+      </div>
+      <div class="flip-back">
+        <div class="flip-quote-wrap">
+          <div class="flip-quote">"Isi quote Hira di sini."</div>
+        </div>
+        <div class="flip-back-info">
+          <div class="flip-back-name">
+            Hira
+            <span class="flip-back-role"><span class="role-badge badge-member">🎮 Member</span></span>
+          </div>
+          <div class="flip-back-date">Bergabung sejak Jan 2026</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="flip-card" data-role="member">
+    <div class="flip-card-inner">
+      <div class="flip-front">
+         <div class="flip-front-bg" style="--card-bg: linear-gradient(135deg,#a0c8ff,#5090e0)"></div>
+        <div class="member-avatar-wrap">
+          <div class="member-avatar" style="background:linear-gradient(135deg,#c4a0ff,#8050d0)">🎮</div>
+          <span class="status-dot offline"></span>
+        </div>
+        <div class="role-badge badge-member">🎮 Member</div>
+        <div class="member-name">Vinn</div>
+        <div class="member-username">@vinn</div>
+        <div class="flip-hint">Hover buat flip</div>
+      </div>
+      <div class="flip-back">
+        <div class="flip-quote-wrap">
+          <div class="flip-quote">"Isi quote Vinn di sini."</div>
+        </div>
+        <div class="flip-back-info">
+          <div class="flip-back-name">
+            Vinn
+            <span class="flip-back-role"><span class="role-badge badge-member">🎮 Member</span></span>
+          </div>
+          <div class="flip-back-date">Bergabung sejak Feb 2026</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="flip-card" data-role="member">
+    <div class="flip-card-inner">
+      <div class="flip-front">
+         <div class="flip-front-bg" style="--card-bg: linear-gradient(135deg,#a0c8ff,#5090e0)"></div>
+        <div class="member-avatar-wrap">
+          <div class="member-avatar" style="background:linear-gradient(135deg,#ffd080,#e09030)">🎮</div>
+          <span class="status-dot online"></span>
+        </div>
+        <div class="role-badge badge-member">🎮 Member</div>
+        <div class="member-name">Incim</div>
+        <div class="member-username">@incim</div>
+        <div class="flip-hint">Hover buat flip</div>
+      </div>
+      <div class="flip-back">
+        <div class="flip-quote-wrap">
+          <div class="flip-quote">"Isi quote Incim di sini."</div>
+        </div>
+        <div class="flip-back-info">
+          <div class="flip-back-name">
+            Incim
+            <span class="flip-back-role"><span class="role-badge badge-member">🎮 Member</span></span>
+          </div>
+          <div class="flip-back-date">Bergabung sejak Feb 2026</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Empty state -->
+  <div class="member-empty" id="memberEmpty">
+    <p>Tidak ada member di kategori ini.</p>
+  </div>
+
+</div><!-- /member-grid -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+(function () {
+
+  /* ── Stagger entrance ── */
+  const cards = Array.from(document.querySelectorAll('.flip-card'));
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const idx = cards.indexOf(e.target);
+        setTimeout(() => e.target.classList.add('revealed'), idx * 70);
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.05 });
+  cards.forEach(c => obs.observe(c));
+
+  /* ── Tap to flip (mobile) ── */
+  cards.forEach(card => {
+    card.addEventListener('click', () => {
+      card.classList.toggle('flipped');
+    });
+  });
+
+  /* ── Filter ── */
+  const filterBtns = document.querySelectorAll('.mfilter-btn');
+  const emptyEl    = document.getElementById('memberEmpty');
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const filter = btn.dataset.filter;
+      let visible  = 0;
+
+      cards.forEach(card => {
+        const match = filter === 'all' || card.dataset.role === filter;
+        card.classList.toggle('hidden', !match);
+        if (match) { card.style.visibility = ''; visible++; }
+      });
+
+      emptyEl.classList.toggle('show', visible === 0);
+    });
+  });
+
+})();
+
+/* ── Style 12 — Fade out saat kembali ke index ── */
+function goBack(e) {
+  e.preventDefault();
+  document.body.style.transition = 'opacity .4s ease';
+  document.body.style.opacity    = '0';
+  setTimeout(() => { window.location.href = 'index.html'; }, 400);
+}
+</script>
+</body>
+</html>

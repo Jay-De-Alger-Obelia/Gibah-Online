@@ -1,0 +1,244 @@
+
+
+
+
+
+
+#carousel-section {
+  position: relative;
+  padding: 60px 0 70px;
+  overflow: hidden;
+}
+ 
+/* Background foto — sama seperti Section 2 */
+#carousel-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('../assets/sc4/bgsc4.jpg'); /* ← ganti path foto kamu */
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  filter: brightness(1) saturate(1);
+  z-index: 0;
+}
+ 
+/* Gradient gelap atas → terang bawah */
+#carousel-section::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(14,8,4,.94)  0%,
+    rgba(14,8,4,.52)  30%,
+    rgba(14,8,4,.22)  65%,
+    rgba(14,8,4,.08) 100%
+  );
+  z-index: 0;
+}
+ 
+/* ─────────────────────────────────────────
+   INNER
+───────────────────────────────────────── */
+.cr-inner {
+  position: relative;
+  z-index: 1;
+}
+ 
+/* Section header */
+.cr-header {
+  text-align: center;
+  margin-bottom: 32px;
+  padding: 0 40px;
+}
+.cr-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Familjen Grotesk', sans-serif;
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: #ffb07a;
+  margin-bottom: 16px;
+}
+.cr-eyebrow::before,
+.cr-eyebrow::after {
+  content: '';
+  display: block;
+  width: 28px; height: 1px;
+  background: #ffb07a;
+  opacity: .45;
+}
+.cr-title {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 900;
+  letter-spacing: -.03em;
+  line-height: 1.05;
+  color: #fff;
+  margin-bottom: 12px;
+}
+.cr-title em {
+  font-style: italic;
+  color: #ffb07a;
+}
+.cr-desc {
+  font-size: .92rem;
+  color: rgba(255,255,255,.55);
+  max-width: 380px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+ 
+/* 
+   TRACK WRAPPER — fade tepi kiri & kanan
+   Style 8
+ */
+.cr-tracks {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow: hidden;
+  /* Style 8 — overlay fade di kedua ujung */
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    #000 8%,
+    #000 92%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    #000 8%,
+    #000 92%,
+    transparent 100%
+  );
+}
+ 
+/* 
+   TRACK
+ */
+.cr-track {
+  display: flex;
+  gap: 16px;
+  width: max-content;
+  /* Fitur 1 — pause on hover via animation-play-state */
+  will-change: transform;
+}
+.cr-track-row1 {
+  animation: scrollLeft  28s linear infinite;
+}
+.cr-track-row2 {
+  animation: scrollRight 28s linear infinite;
+}
+ 
+/* Fitur 1 — pause saat hover di atas track area */
+.cr-tracks:hover .cr-track {
+  animation-play-state: paused;
+}
+ 
+@keyframes scrollLeft {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+@keyframes scrollRight {
+  0%   { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+ 
+/* ─────────────────────────────────────────
+   PHOTO CARD
+───────────────────────────────────────── */
+.cr-card {
+  position: relative;
+  flex-shrink: 0;
+  width: 240px;
+  height: 188px;
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  /* Style 7 — rotation acak, diset via --rot per card */
+  transform: rotate(var(--rot, 0deg));
+  transition:
+    transform .4s cubic-bezier(.16,1,.3,1),
+    box-shadow .4s;
+  box-shadow:
+    0 12px 36px rgba(0,0,0,.35),
+    0  3px  8px rgba(0,0,0,.2);
+}
+ 
+/* Style 7 — hover: scale + unrotate */
+.cr-card:hover {
+  transform: rotate(0deg) scale(1.06) translateY(-6px);
+  box-shadow:
+    0 24px 60px rgba(0,0,0,.5),
+    0  6px 16px rgba(0,0,0,.3);
+  z-index: 5;
+}
+ 
+.cr-card img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: filter .35s;
+}
+.cr-card:hover img { filter: brightness(1.08); }
+ 
+/* Placeholder card */
+.cr-card-ph {
+  width: 100%; height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.8rem;
+  background: var(--ph-bg, linear-gradient(135deg,#ffb07a,#e05c2a));
+}
+ 
+/* Card info overlay — muncul saat hover */
+.cr-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(14,8,4,.82) 0%,
+    transparent 55%
+  );
+  opacity: 0;
+  transition: opacity .3s;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 14px 16px;
+  pointer-events: none;
+}
+.cr-card:hover .cr-card-overlay { opacity: 1; }
+.cr-card-label {
+  font-family: 'Familjen Grotesk', sans-serif;
+  font-size: .58rem;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: #ffb07a;
+  margin-bottom: 3px;
+}
+.cr-card-title {
+  font-family: 'Fraunces', serif;
+  font-size: .88rem;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.2;
+}
+ 
+/* 
+   RESPONSIVE
+ */
+@media (max-width: 768px) {
+  .cr-card { width: 180px; height: 145px; }
+  .cr-tracks { gap: 10px; }
+  .cr-track  { gap: 10px; }
+  #carousel-section { padding: 80px 0 100px; }
+}
