@@ -238,9 +238,15 @@ body {
   transform-style: preserve-3d;
   transition: transform .6s cubic-bezier(.16,1,.3,1);
 }
-.flip-card:hover .flip-card-inner,
 .flip-card.flipped .flip-card-inner {
   transform: rotateY(180deg);
+}
+
+/* Hover hanya aktif di device yang punya mouse (bukan touchscreen) */
+@media (hover: hover) and (pointer: fine) {
+  .flip-card:hover .flip-card-inner {
+    transform: rotateY(180deg);
+  }
 }
 
 /* Shared face styles */
@@ -267,8 +273,10 @@ body {
   box-shadow: 0 4px 24px rgba(30,20,10,.06);
   transition: box-shadow .3s;
 }
-.flip-card:hover .flip-front {
-  box-shadow: 0 12px 48px rgba(30,20,10,.1);
+@media (hover: hover) and (pointer: fine) {
+  .flip-card:hover .flip-front {
+    box-shadow: 0 12px 48px rgba(30,20,10,.1);
+  }
 }
 
 /* Foto member */
@@ -301,8 +309,10 @@ body {
   z-index: 0;
   transition: transform .55s cubic-bezier(.16,1,.3,1);
 }
-.flip-card:hover .flip-front-bg {
-  transform: scale(1.06);
+@media (hover: hover) and (pointer: fine) {
+  .flip-card:hover .flip-front-bg {
+    transform: scale(1.06);
+  }
 }
 
 /* Gradient gelap di atas foto */
@@ -1223,11 +1233,33 @@ body {
   }, { threshold: 0.05 });
   cards.forEach(c => obs.observe(c));
 
-  /* ── Tap to flip (mobile) ── */
-  cards.forEach(card => {
-    card.addEventListener('click', () => {
-      card.classList.toggle('flipped');
+  /* ── Deteksi touch device: ganti teks hint ── */
+  const isTouch = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+  if (isTouch) {
+    document.querySelectorAll('.flip-hint').forEach(el => {
+      el.innerHTML = 'Ketuk untuk flip ↻';
     });
+  }
+
+  /* ── Tap to flip ── */
+  cards.forEach(card => {
+    card.addEventListener('click', (e) => {
+      // Hentikan event agar tidak bocor ke listener document
+      e.stopPropagation();
+
+      const isFlipped = card.classList.contains('flipped');
+
+      // Tutup semua card lain
+      cards.forEach(c => { if (c !== card) c.classList.remove('flipped'); });
+
+      // Toggle: belum flip → flip; sudah flip → balik ke depan
+      card.classList.toggle('flipped', !isFlipped);
+    });
+  });
+
+  /* ── Tap di luar card = tutup semua ── */
+  document.addEventListener('click', () => {
+    cards.forEach(c => c.classList.remove('flipped'));
   });
 
   /* ── Filter ── */
